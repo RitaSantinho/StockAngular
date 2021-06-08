@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 
@@ -8,18 +9,20 @@ import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'StockClient';
-  productForm = new FormGroup ({
-    iva: new FormControl(''),
-    pvp:new FormControl(''),
-    discount: new FormControl('')
-  })
-productValue='';
-//constructor(
-//  private http: HttpClient
-//){};
-setProductValue(){
-  this.productValue= JSON.stringify(this.productForm.value);
-}
+  products:any[]=[];
+  constructor(
+    private http: HttpClient
+  ){};
+
+  getAllProducts(){
+    this.http.get("http://localhost:8080/stockMaven/api/products").subscribe((res:any)=>this.products = res)
+  }
+
+  addToProducts(product:any){
+    this.products.push(product)
+  }
+
+
 //creatProduct(){
 //  this.http.post
 //}
